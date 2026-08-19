@@ -1,0 +1,20 @@
+{
+  "as_of_date": "2026-08-19",
+  "files": [
+    {
+      "file": "sales.csv",
+      "sha256": "f93b80da78e6e5026351bfabfbb3441a3fc8ebcf7e835279e719f37d42dd9f65",
+      "bytes": 574046
+    },
+    {
+      "file": "stores.csv",
+      "sha256": "c00b0833ec6be07dce87519664697769b21b7df2f3490d0e3b07930500763871",
+      "bytes": 243
+    },
+    {
+      "file": "products.csv",
+      "sha256": "b591d0a28c3b0ce49ae2266de72988b95756e00146cf2a31f7aebf617063b98f",
+      "bytes": 608
+    }
+  ]
+}

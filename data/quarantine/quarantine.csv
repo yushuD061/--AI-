@@ -1,0 +1,373 @@
+﻿source_file,source_row,record_key,field_name,raw_value,error_type,error_message,severity
+sales.csv,61,ORD107050,amount,-12.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,61,ORD107050,amount,-12.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,144,ORD100713,amount,-26.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,144,ORD100713,amount,-26.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,178,ORD112047,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,212,ORD103482,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,227,ORD105715,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,250,ORD110404,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,289,ORD106299,amount,-10.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,289,ORD106299,amount,-10.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,344,ORD111963,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,406,ORD106545,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,516,ORD104094,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,557,ORD107572,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,586,ORD106325,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,598,ORD107587,amount,-50.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,598,ORD107587,amount,-50.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,692,ORD104351,amount,-64.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,692,ORD104351,amount,-64.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,717,ORD109780,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,729,ORD104765,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1073,ORD102452,amount,-26.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,1073,ORD102452,amount,-26.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,1121,ORD105105,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,1132,ORD105123,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1171,ORD108909,amount,-15.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,1171,ORD108909,amount,-15.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,1227,ORD110653,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1236,ORD100499,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,1240,ORD103463,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,1269,ORD110834,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,1306,ORD106224,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1334,ORD103096,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,1413,ORD106163,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,1446,ORD104611,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1480,ORD110601,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1597,ORD111236,amount,-8.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,1597,ORD111236,amount,-8.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,1608,ORD111540,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,1608,ORD111540,amount,15.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,1676,ORD106840,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1747,ORD102347,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,1769,ORD111543,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,1828,ORD108598,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,2017,ORD106598,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,2028,ORD105259,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,2110,ORD107394,amount,-24.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2110,ORD107394,amount,-24.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2120,ORD106894,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,2121,ORD100328,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,2223,ORD100387,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,2271,ORD101037,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,2280,ORD106816,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,2373,ORD105788,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,2444,ORD102393,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,2444,ORD102393,amount,22.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2470,ORD109359,amount,-22.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2470,ORD109359,amount,-22.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2485,ORD103715,amount,-64.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2485,ORD103715,amount,-64.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2558,ORD108148,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2558,ORD108148,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2588,ORD107099,amount,-30.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2588,ORD107099,amount,-30.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2633,ORD111715,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,2660,ORD101576,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,2731,ORD111074,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,2731,ORD111074,amount,40.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2733,ORD104188,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,2782,ORD106354,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,2786,ORD102491,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,2794,ORD110390,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,2825,ORD101537,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,2853,ORD107645,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,2860,ORD105179,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,2941,ORD102660,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2941,ORD102660,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2947,ORD108244,amount,-42.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,2947,ORD108244,amount,-42.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,2979,ORD101105,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,3024,ORD108914,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3043,ORD111328,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,3043,ORD111328,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,3073,ORD110212,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3107,ORD110600,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3202,ORD108869,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,3273,ORD105944,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3309,ORD100543,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,3345,ORD106225,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3456,ORD108271,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3549,ORD102046,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,3549,ORD102046,amount,64.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,3587,ORD100705,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,3592,ORD101544,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3626,ORD104302,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,3634,ORD111841,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3645,ORD108544,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,3697,ORD101411,amount,-5.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,3697,ORD101411,amount,-5.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,3740,ORD106518,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,3769,ORD105285,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,3842,ORD108447,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,3858,ORD109772,amount,-40.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,3858,ORD109772,amount,-40.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,3872,ORD100502,amount,-64.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,3872,ORD100502,amount,-64.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,3927,ORD103855,amount,-78.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,3927,ORD103855,amount,-78.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,4024,ORD102556,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4076,ORD102409,amount,-34.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,4076,ORD102409,amount,-34.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,4095,ORD110594,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,4104,ORD107612,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,4104,ORD107612,amount,5.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,4380,ORD110171,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,4380,ORD110171,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,4448,ORD107445,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4452,ORD104370,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4490,ORD108273,amount,-25.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,4490,ORD108273,amount,-25.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,4588,ORD104333,amount,-5.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,4588,ORD104333,amount,-5.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,4629,ORD107350,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4644,ORD108963,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4759,ORD105101,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4775,ORD110990,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,4781,ORD111497,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4957,ORD101780,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,4992,ORD102097,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5029,ORD104598,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5088,ORD111734,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5088,ORD111734,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,5107,ORD108475,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5149,ORD110991,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5172,ORD103711,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5173,ORD110839,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5214,ORD107172,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5274,ORD102996,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,5274,ORD102996,amount,15.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,5326,ORD109428,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5387,ORD105143,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5428,ORD102326,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,5431,ORD110769,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,5481,ORD108212,amount,-100.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,5481,ORD108212,amount,-100.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,5510,ORD109504,amount,-90.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,5510,ORD109504,amount,-90.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,5521,ORD111226,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,5521,ORD111226,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,5583,ORD100447,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5606,ORD109951,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5615,ORD101968,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5632,ORD104054,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5658,ORD108548,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5663,ORD107422,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5671,ORD102550,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5683,ORD101769,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,5686,ORD100339,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5703,ORD100318,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5716,ORD110142,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5748,ORD108629,amount,-24.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,5748,ORD108629,amount,-24.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,5766,ORD104828,amount,-84.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,5766,ORD104828,amount,-84.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,5767,ORD107066,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5782,ORD104951,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,5794,ORD100198,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5848,ORD101074,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,5989,ORD110683,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,6017,ORD109146,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6052,ORD100285,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6096,ORD107003,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,6103,ORD106924,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6142,ORD107347,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6145,ORD110588,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6149,ORD100645,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,6170,ORD111097,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6211,ORD101211,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,6217,ORD106218,amount,-44.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6217,ORD106218,amount,-44.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6295,ORD109733,amount,-52.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6295,ORD109733,amount,-52.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6356,ORD104417,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6410,ORD100113,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6433,ORD105818,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,6433,ORD105818,amount,22.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6435,ORD100899,amount,-44.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6435,ORD100899,amount,-44.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6498,ORD101663,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6520,ORD108959,amount,-44.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6520,ORD108959,amount,-44.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6522,ORD109713,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6642,ORD110590,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6680,ORD108367,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6680,ORD108367,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6743,ORD100945,amount,-84.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6743,ORD100945,amount,-84.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6751,ORD111075,amount,-8.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6751,ORD111075,amount,-8.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6884,ORD108522,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6894,ORD109018,amount,-36.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6894,ORD109018,amount,-36.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6917,ORD101013,amount,-44.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,6917,ORD101013,amount,-44.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,6918,ORD109482,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6945,ORD102665,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6947,ORD100473,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6948,ORD106494,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,6952,ORD102989,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,6960,ORD109059,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,6975,ORD104109,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7049,ORD102072,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7067,ORD106044,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7101,ORD111502,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,7144,ORD111323,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,7180,ORD107286,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,7222,ORD106146,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7312,ORD108168,amount,-12.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,7312,ORD108168,amount,-12.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,7318,ORD104185,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,7349,ORD107924,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7387,ORD103817,amount,-25.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,7387,ORD103817,amount,-25.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,7455,ORD102092,amount,-10.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,7455,ORD102092,amount,-10.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,7469,ORD107701,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7483,ORD108070,amount,-84.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,7483,ORD108070,amount,-84.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,7560,ORD103547,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,7564,ORD110173,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7613,ORD109431,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,7615,ORD103277,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7726,ORD111191,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7762,ORD106395,amount,-64.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,7762,ORD106395,amount,-64.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,7773,ORD104689,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7814,ORD107782,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,7849,ORD109711,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7885,ORD111982,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,7933,ORD100498,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,7984,ORD110899,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8016,ORD107305,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8043,ORD100016,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8078,ORD111823,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,8130,ORD105614,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8145,ORD106428,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8154,ORD107467,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8183,ORD111991,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8213,ORD110140,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8233,ORD105069,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8282,ORD107926,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,8321,ORD102481,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8358,ORD104423,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8377,ORD102328,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8398,ORD101119,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8429,ORD110939,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8471,ORD107113,amount,-18.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,8471,ORD107113,amount,-18.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,8532,ORD111344,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8534,ORD101650,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8557,ORD103535,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8582,ORD111023,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,8614,ORD100494,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8635,ORD109189,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,8635,ORD109189,amount,22.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,8639,ORD101207,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8678,ORD103746,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,8724,ORD106921,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8758,ORD110802,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,8760,ORD106854,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8828,ORD106803,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8832,ORD102533,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,8842,ORD103831,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,8879,ORD110164,,,DUPLICATE_ROW,duplicate candidate retained for review,WARNING
+sales.csv,8948,ORD106340,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9049,ORD105094,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9059,ORD102866,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,9059,ORD102866,amount,42.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,9113,ORD105360,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9115,ORD106107,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9119,ORD101023,,,DUPLICATE_ROW,duplicate candidate retained for review,WARNING
+sales.csv,9154,ORD104293,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9205,ORD107329,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9214,ORD106450,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9223,ORD111680,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9246,ORD111420,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,9274,ORD104177,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,9274,ORD104177,amount,15.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,9290,ORD109827,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9355,ORD110327,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9393,ORD110494,amount,-15.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,9393,ORD110494,amount,-15.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,9542,ORD110829,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9553,ORD111156,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9584,ORD107513,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9622,ORD111161,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9725,ORD108217,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9763,ORD103677,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9777,ORD109401,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9853,ORD102244,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9941,ORD110913,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,9961,ORD105480,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9971,ORD111516,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,9974,ORD107819,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,9974,ORD107819,amount,26.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,10033,ORD107668,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10103,ORD104048,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,10184,ORD111960,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10209,ORD105527,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,10216,ORD103787,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,10216,ORD103787,amount,48.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,10239,ORD106245,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10273,ORD103314,amount,-32.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,10273,ORD103314,amount,-32.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,10279,ORD106630,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10461,ORD110504,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10505,ORD104609,amount,-16.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,10505,ORD104609,amount,-16.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,10543,ORD105520,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,10558,ORD103383,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10566,ORD103455,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,10593,ORD110326,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,10629,ORD100954,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10632,ORD101099,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,10643,ORD100850,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,10655,ORD102640,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10662,ORD107824,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10800,ORD109696,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,10858,ORD102442,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,10863,ORD111021,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,10863,ORD111021,amount,44.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,10919,ORD110411,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11008,ORD106813,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11011,ORD106918,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11025,ORD101581,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11096,ORD108164,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11164,ORD100310,qty,-1,NEGATIVE_QTY,negative quantity retained as refund candidate,WARNING
+sales.csv,11164,ORD100310,amount,42.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,11230,ORD106675,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11243,ORD110183,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11272,ORD102580,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11304,ORD104290,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11316,ORD108463,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,11347,ORD103772,store_id,S99,INVALID_STORE_FK,store_id does not exist in stores,ERROR
+sales.csv,11349,ORD107609,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11369,ORD100298,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11383,ORD103916,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11388,ORD111551,product_id,P99,INVALID_PRODUCT_FK,product_id does not exist in products,ERROR
+sales.csv,11395,ORD110439,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11448,ORD105130,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11464,ORD109655,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11542,ORD106126,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11544,ORD104053,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11551,ORD109335,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11573,ORD100227,amount,-5.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,11573,ORD100227,amount,-5.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,11581,ORD109404,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11594,ORD100863,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11621,ORD106684,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11701,ORD103575,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11725,ORD100409,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11772,ORD107934,qty,0,ZERO_QTY,qty cannot be zero,ERROR
+sales.csv,11856,ORD100143,amount,-6.00,NEGATIVE_AMOUNT,negative amount retained as refund candidate,WARNING
+sales.csv,11856,ORD100143,amount,-6.00,AMOUNT_PRICE_MISMATCH,amount differs from qty multiplied by unit_price; retained,WARNING
+sales.csv,11872,ORD105258,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11876,ORD101867,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11915,ORD106718,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,11940,ORD111932,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,11967,ORD110043,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,12041,ORD100794,,,DUPLICATE_ROW,exact duplicate sales row removed,INFO
+sales.csv,12067,ORD109654,amount,,MISSING_VALUE,amount is missing or invalid,ERROR
+sales.csv,12085,ORD102737,amount,,MISSING_VALUE,amount is missing or invalid,ERROR

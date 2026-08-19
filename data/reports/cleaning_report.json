@@ -1,0 +1,37 @@
+{
+  "as_of_date": "2026-08-19",
+  "raw_rows": {
+    "sales": 12131,
+    "stores": 5,
+    "products": 20
+  },
+  "valid_rows": 11888,
+  "isolated_rows": 167,
+  "deduplicated_rows": 76,
+  "auto_corrected_rows": 0,
+  "missing_value_count": 120,
+  "invalid_store_fk": 7,
+  "invalid_product_fk": 30,
+  "negative_qty": 14,
+  "negative_amount": 49,
+  "date_min": "2026-05-01",
+  "date_max": "2026-07-31",
+  "net_revenue": 423949.0,
+  "order_count": 11885,
+  "average_order_value": 35.67,
+  "issues_by_type": {
+    "AMOUNT_PRICE_MISMATCH": 63,
+    "DUPLICATE_ROW": 78,
+    "INVALID_PRODUCT_FK": 30,
+    "INVALID_STORE_FK": 7,
+    "MISSING_VALUE": 120,
+    "NEGATIVE_AMOUNT": 49,
+    "NEGATIVE_QTY": 14,
+    "ZERO_QTY": 11
+  },
+  "issues_by_severity": {
+    "ERROR": 168,
+    "INFO": 76,
+    "WARNING": 128
+  }
+}
