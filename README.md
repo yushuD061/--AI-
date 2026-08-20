@@ -34,6 +34,19 @@ npm run dev
 
 前端默认访问 `http://127.0.0.1:5173`，接口文档访问 `http://127.0.0.1:8000/docs`。前端默认连接真实 FastAPI；若只想查看演示样式，将 `frontend/.env` 的 `VITE_USE_MOCK` 改为 `true` 并重启 Vite。
 
+AI 问答页面访问 `http://127.0.0.1:5173/assistant`。页面支持新建、切换和删除对话，并可在“LLM 配置”中修改供应商、模型、Base URL 和超时设置。API Key 只从后端环境变量读取，不会显示或保存到浏览器：
+
+```powershell
+$env:LLM_PROVIDER="deepseek"
+$env:LLM_MODEL="deepseek-chat"
+$env:LLM_API_KEY="your-key"
+$env:LLM_BASE_URL="https://api.deepseek.com"
+```
+
+未配置 API Key 时，问答会使用本地规则解析和 SQLite 真实查询生成模板答案。
+
+AI 问答使用 LangChain 的结构化输出解析用户意图；LangChain 不执行任意 SQL，也不计算业务数字。解析后的计划由后端白名单查询服务访问 SQLite，模型不可用时自动回退到本地规则解析。
+
 ### 后端验证
 
 ```powershell

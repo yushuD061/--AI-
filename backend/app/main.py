@@ -7,6 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .database import database_available
+from .ai import config as ai_config
+from .ai import conversations
+from .ai.answer import template_answer, validate_answer
+from .ai.facts import execute_plan
+from .ai.models import AssistantMessage, ConfigTestResponse, ConfigUpdate, Conversation, ConversationCreate, FactSet, QueryRequest
+from .ai.parser import parse_question
+from .ai.provider import generate_answer, test_connection
 from .schemas import DailyPoint, Envelope, FilterData, Filters, HealthResponse, ProductPerformance, Summary
 from .services import analytics
 
@@ -68,3 +75,81 @@ def daily(start_date: date | None = None, end_date: date | None = None, store_id
 def top_products(start_date: date | None = None, end_date: date | None = None, store_id: str | None = None, limit: int = Query(default=10, ge=1, le=50)) -> Envelope[list[ProductPerformance]]:
     resolved = query_filters(start_date, end_date, store_id)
     return Envelope(filters=resolved, data=analytics.get_top_products(resolved, limit))
+
+
+@app.get("/api/v1/ai/config")
+def get_ai_config() -> dict:
+    return {"data": ai_config.public_config()}
+
+
+@app.patch("/api/v1/ai/config")
+def update_ai_config(payload: ConfigUpdate) -> dict:
+    return {"data": ai_config.update_config(payload.provider, payload.model, payload.base_url, payload.timeout_seconds)}
+
+
+@app.post("/api/v1/ai/config/test", response_model=ConfigTestResponse)
+def test_ai_config() -> ConfigTestResponse:
+    try:
+        latency, message = test_connection()
+        current = ai_config.get_config()
+        return ConfigTestResponse(status="ok", provider=current.provider, model=current.model, latency_ms=latency, message=message)
+    except Exception as exc:
+        current = ai_config.get_config()
+        raise HTTPException(status_code=503, detail=f"LLM 连接失败: {type(exc).__name__}") from exc
+
+
+@app.get("/api/v1/ai/conversations")
+def get_conversations() -> dict:
+    return {"data": conversations.list_conversations()}
+
+
+@app.post("/api/v1/ai/conversations", response_model=Conversation)
+def create_conversation(payload: ConversationCreate) -> Conversation:
+    return conversations.create_conversation(payload.title or "新对话")
+
+
+@app.delete("/api/v1/ai/conversations/{conversation_id}")
+def remove_conversation(conversation_id: str) -> dict:
+    conversations.delete_conversation(conversation_id)
+    return {"status": "deleted", "conversation_id": conversation_id}
+
+
+@app.get("/api/v1/ai/conversations/{conversation_id}/messages")
+def get_conversation_messages(conversation_id: str) -> dict:
+    return {"data": conversations.get_messages(conversation_id)}
+
+
+@app.post("/api/v1/ai/query")
+def query_ai(payload: QueryRequest) -> dict:
+    if not conversations.conversation_exists(payload.conversation_id):
+        raise HTTPException(status_code=404, detail="对话不存在")
+    previous = conversations.last_query_plan(payload.conversation_id)
+    try:
+        plan, mode = parse_question(payload.question, previous)
+    except ValueError:
+        user_message = conversations.add_message(payload.conversation_id, "user", payload.question, "unsupported")
+        assistant = conversations.add_message(payload.conversation_id, "assistant", "这个问题暂不在当前数据问答范围内，我可以回答营业额、订单数、客单价、商品、门店和品类问题。", "unsupported")
+        return {"conversation_id": payload.conversation_id, "message": assistant, "facts": None, "status": "unsupported"}
+    if plan.confidence < 0.75:
+        assistant = conversations.add_message(payload.conversation_id, "assistant", "请补充明确的日期、商品或门店，我才能查询准确数据。", "clarification_required", plan.model_dump())
+        return {"conversation_id": payload.conversation_id, "message": assistant, "facts": None, "status": "clarification_required"}
+    conversations.add_message(payload.conversation_id, "user", payload.question, "pending")
+    try:
+        facts = execute_plan(plan)
+    except LookupError:
+        facts = None
+    if facts is None or (facts.value is None and not facts.rows):
+        content = "当前问题没有匹配到销售记录，请检查商品、门店或日期。"
+        assistant = conversations.add_message(payload.conversation_id, "assistant", content, "no_data", plan.model_dump(), facts.model_dump() if facts else None)
+        return {"conversation_id": payload.conversation_id, "message": assistant, "facts": facts, "status": "no_data"}
+    status = "answered_local"
+    content = template_answer(plan, facts)
+    try:
+        generated = generate_answer(payload.question, facts)
+        if validate_answer(generated, facts):
+            content = generated
+            status = "answered"
+    except Exception:
+        status = "provider_error"
+    assistant = conversations.add_message(payload.conversation_id, "assistant", content, status, plan.model_dump(), facts.model_dump())
+    return {"conversation_id": payload.conversation_id, "message": assistant, "facts": facts, "status": status}

@@ -2,12 +2,23 @@ import { useEffect, useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { ArrowDownRight, ArrowUpRight, CalendarDays, ChevronDown, CircleHelp, RefreshCw, Store as StoreIcon, TrendingUp } from 'lucide-react'
 import { DashboardData, Filters, getDashboard, getFilters, Store } from './api/client'
+import Assistant from './Assistant'
 
 const currency = new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', maximumFractionDigits: 0 })
 const number = new Intl.NumberFormat('zh-CN')
 function Metric({ label, value, detail, trend }: { label: string; value: string; detail: string; trend: 'up' | 'down' }) { return <article className="metric-card"><div className="metric-head"><span>{label}</span><span className={`trend ${trend}`}>{trend === 'up' ? <ArrowUpRight size={15} /> : <ArrowDownRight size={15} />}{detail}</span></div><strong>{value}</strong><span className="metric-caption">相比上一个相同周期</span></article> }
 
 function App() {
+  useEffect(() => {
+    if (window.location.pathname === '/assistant' || document.querySelector('.assistant-launcher')) return
+    const link = document.createElement('a')
+    link.className = 'assistant-launcher'
+    link.href = '/assistant'
+    link.textContent = 'AI 数据问答'
+    document.body.appendChild(link)
+    return () => link.remove()
+  }, [])
+  if (window.location.pathname === '/assistant') return <Assistant />
   const [stores, setStores] = useState<Store[]>([]), [filters, setFilters] = useState<Filters>({ start_date: '2026-05-01', end_date: '2026-07-31', store_id: 'ALL' }), [data, setData] = useState<DashboardData | null>(null), [loading, setLoading] = useState(true), [error, setError] = useState('')
   const load = async () => { setLoading(true); setError(''); try { setData(await getDashboard(filters)) } catch { setError('数据加载失败，请稍后重试') } finally { setLoading(false) } }
   useEffect(() => { getFilters().then((result) => setStores(result.stores)); void load() }, [])
