@@ -1,6 +1,6 @@
 ## 当前实现与启动说明
 
-当前已完成数据清洗，清洗后的 SQLite 数据库为后续 FastAPI 的唯一业务数据源。前端和后端的搭建约定、接口合同与页面交互说明见 [doc/前后端搭建计划.md](doc/前后端搭建计划.md)。
+当前已完成数据清洗、FastAPI 聚合接口和 React 看板。清洗后的 SQLite 数据库是 FastAPI 的唯一业务数据源。接口合同与页面交互说明见 [doc/前后端搭建计划.md](doc/前后端搭建计划.md)。
 
 ### 当前可运行：数据清洗
 
@@ -15,12 +15,10 @@ python -m unittest discover -s tests -v
 - `data/quarantine/quarantine.csv`：隔离与告警记录。
 - `data/reports/cleaning_report.json`：清洗统计报告。
 
-### 看板完成后的启动方式
-
-以下命令是 `backend/` 和 `frontend/` 完成搭建后使用的本地开发流程；当前仓库尚未初始化这两个目录。
+### 启动看板
 
 ```powershell
-# 终端 1：刷新数据并启动 FastAPI
+# 终端 1：刷新数据并启动 FastAPI（首次启动先安装依赖）
 python scripts/clean_data.py
 cd backend
 python -m venv .venv
@@ -34,4 +32,12 @@ npm install
 npm run dev
 ```
 
-前端默认访问 `http://127.0.0.1:5173`，接口文档访问 `http://127.0.0.1:8000/docs`。
+前端默认访问 `http://127.0.0.1:5173`，接口文档访问 `http://127.0.0.1:8000/docs`。前端默认连接真实 FastAPI；若只想查看演示样式，将 `frontend/.env` 的 `VITE_USE_MOCK` 改为 `true` 并重启 Vite。
+
+### 后端验证
+
+```powershell
+cd backend
+.\.venv\Scripts\python.exe -m pytest tests -q
+Invoke-RestMethod "http://127.0.0.1:8000/api/v1/dashboard/daily?start_date=2026-05-01&end_date=2026-05-07"
+```
