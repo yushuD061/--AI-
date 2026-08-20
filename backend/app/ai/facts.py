@@ -5,6 +5,7 @@ from typing import Any
 
 from ..database import connect
 from ..services.analytics import get_daily, get_summary, resolve_filters
+from ..services import phase2
 from .models import FactSet, QueryPlan
 
 
@@ -14,12 +15,28 @@ def _resolve_dates(plan: QueryPlan) -> tuple[date, date]:
 
 
 def execute_plan(plan: QueryPlan) -> FactSet:
+    if plan.intent == "compare_period":
+        current, previous = phase2.resolve_periods(plan.start_date, plan.end_date,
+                                                   plan.previous_start_date, plan.previous_end_date,
+                                                   plan.store_id)
+        result = phase2.compare(current, previous)
+        metric = plan.metric if plan.metric in {"net_revenue", "order_count", "average_order_value", "quantity"} else "net_revenue"
+        row = {"metric": metric, **result["metrics"][metric]}
+        return FactSet(intent=plan.intent, metric=metric, value=row["current"],
+                       unit="count" if metric in {"order_count", "quantity"} else "CNY",
+                       filters={"start_date": current.start_date.isoformat(), "end_date": current.end_date.isoformat(),
+                                "previous_start_date": previous.start_date.isoformat(),
+                                "previous_end_date": previous.end_date.isoformat(), "store_id": plan.store_id},
+                       rows=[row])
     start, end = _resolve_dates(plan)
     filters = resolve_filters(start, end, plan.store_id)
     filter_clauses = ["date_clean >= ?", "date_clean <= ?"]
     params: list[Any] = [start.isoformat(), end.isoformat()]
     if plan.store_id:
         filter_clauses.append("store_id = ?"); params.append(plan.store_id)
+    elif filters.allowed_store_ids is not None:
+        filter_clauses.append(f"store_id IN ({','.join('?' for _ in filters.allowed_store_ids)})")
+        params.extend(filters.allowed_store_ids)
     where = " AND ".join(filter_clauses)
     db = connect()
     try:

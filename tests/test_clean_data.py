@@ -68,6 +68,11 @@ O6,2026-08-18,S01,P01,1,,微信
         report_file = self.root / "data" / "reports" / "cleaning_report.json"
         self.assertEqual(json.loads(report_file.read_text(encoding="utf-8"))["valid_rows"], 3)
         self.assertEqual(clean_dataset(self.root), report)
+        app_db = sqlite3.connect(self.root / "data" / "app" / "app.sqlite")
+        try:
+            self.assertEqual(app_db.execute("SELECT COUNT(*) FROM quality_runs WHERE status = 'success'").fetchone()[0], 2)
+        finally:
+            app_db.close()
 
 
 if __name__ == "__main__":

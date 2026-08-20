@@ -20,6 +20,12 @@ class Filters(BaseModel):
     start_date: date
     end_date: date
     store_id: str | None = None
+    allowed_store_ids: list[str] | None = Field(default=None, exclude=True)
+
+
+class LoginRequest(BaseModel):
+    username: str = Field(min_length=1, max_length=64)
+    password: str = Field(min_length=1, max_length=256)
 
 
 class Envelope(BaseModel, Generic[T]):
@@ -59,3 +65,12 @@ class ProductPerformance(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     database: str
+
+
+class AlertReadUpdate(BaseModel):
+    is_read: bool
+
+
+class DailyReportCreate(BaseModel):
+    report_date: date
+    store_id: str | None = None

@@ -122,6 +122,24 @@ def test_wrong_model_number_is_replaced_by_verified_template(truth_client) -> No
     assert result["facts"]["value"] == 85.0
 
 
+def test_compare_period_uses_two_sqlite_periods_and_deep_link(truth_client) -> None:
+    client, _, monkeypatch = truth_client
+    monkeypatch.setattr("app.main.generate_answer", lambda _question, _facts: "变化率为 999%。")
+    conversation_id = client.post("/api/v1/ai/conversations", json={}).json()["conversation_id"]
+    result, _ = ask(client, conversation_id, "六月比五月营业额如何？")
+    assert result["query_plan"]["intent"] == "compare_period"
+    assert result["facts"]["rows"][0] == {
+        "metric": "net_revenue", "current": 123.0, "previous": 70.0,
+        "absolute_change": 53.0, "change_rate": pytest.approx(0.757143),
+    }
+    assert result["status"] == "answered_local" and "999" not in result["message"]["content"]
+    assert result["dashboard_target"]["view"] == "compare"
+    assert result["dashboard_target"]["previous_start_date"] == "2026-05-01"
+    follow_up, _ = ask(client, conversation_id, "订单数环比呢？")
+    assert follow_up["facts"]["metric"] == "order_count"
+    assert follow_up["facts"]["rows"][0]["current"] == 5
+
+
 def test_unsupported_and_missing_product_do_not_invent_numbers(truth_client) -> None:
     client, _, _ = truth_client
     conversation_id = client.post("/api/v1/ai/conversations", json={}).json()["conversation_id"]

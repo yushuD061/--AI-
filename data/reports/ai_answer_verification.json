@@ -15,6 +15,8 @@
         ],
         "start_date": "2026-06-01",
         "end_date": "2026-06-30",
+        "previous_start_date": null,
+        "previous_end_date": null,
         "product_name": "牛肉poke",
         "store_id": null,
         "category": null,
@@ -64,7 +66,7 @@
       ],
       "consistency_passed": true,
       "fallback_used": true,
-      "duration_ms": 16
+      "duration_ms": 32
     },
     {
       "case_id": "beef_may",
@@ -80,6 +82,8 @@
         ],
         "start_date": "2026-05-01",
         "end_date": "2026-05-31",
+        "previous_start_date": null,
+        "previous_end_date": null,
         "product_name": "牛肉poke",
         "store_id": null,
         "category": null,
@@ -95,7 +99,7 @@
           "dimensions",
           "product_name"
         ],
-        "previous_message_id": "m_4189b185daac"
+        "previous_message_id": "m_ac1c694ffc65"
       },
       "expected_database_facts": {
         "net_revenue": 40.0,
@@ -131,7 +135,7 @@
       ],
       "consistency_passed": true,
       "fallback_used": true,
-      "duration_ms": 16
+      "duration_ms": 34
     },
     {
       "case_id": "salmon_may",
@@ -148,6 +152,8 @@
         ],
         "start_date": "2026-05-01",
         "end_date": "2026-05-31",
+        "previous_start_date": null,
+        "previous_end_date": null,
         "product_name": "三文鱼poke",
         "store_id": null,
         "category": null,
@@ -163,7 +169,7 @@
           "start_date",
           "end_date"
         ],
-        "previous_message_id": "m_1a6f2db4abea"
+        "previous_message_id": "m_e3b8d190ffc7"
       },
       "expected_database_facts": {
         "net_revenue": 30.0,
@@ -199,7 +205,7 @@
       ],
       "consistency_passed": true,
       "fallback_used": true,
-      "duration_ms": 21
+      "duration_ms": 35
     },
     {
       "case_id": "salmon_s01",
@@ -217,6 +223,8 @@
         ],
         "start_date": "2026-05-01",
         "end_date": "2026-05-31",
+        "previous_start_date": null,
+        "previous_end_date": null,
         "product_name": "三文鱼poke",
         "store_id": "S01",
         "category": null,
@@ -233,7 +241,7 @@
           "end_date",
           "product_name"
         ],
-        "previous_message_id": "m_b82763422036"
+        "previous_message_id": "m_ec974bd93de6"
       },
       "expected_database_facts": {
         "net_revenue": 30.0,
@@ -269,7 +277,7 @@
       ],
       "consistency_passed": true,
       "fallback_used": true,
-      "duration_ms": 25
+      "duration_ms": 30
     },
     {
       "case_id": "salmon_s01_orders",
@@ -288,6 +296,8 @@
         ],
         "start_date": "2026-05-01",
         "end_date": "2026-05-31",
+        "previous_start_date": null,
+        "previous_end_date": null,
         "product_name": "三文鱼poke",
         "store_id": "S01",
         "category": null,
@@ -304,7 +314,7 @@
           "product_name",
           "store_id"
         ],
-        "previous_message_id": "m_1fb3ea994888"
+        "previous_message_id": "m_e91b11c8b0c1"
       },
       "expected_database_facts": {
         "net_revenue": 30.0,
@@ -338,7 +348,7 @@
       ],
       "consistency_passed": true,
       "fallback_used": true,
-      "duration_ms": 21
+      "duration_ms": 32
     }
   ]
 }

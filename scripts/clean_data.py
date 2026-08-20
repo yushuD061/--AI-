@@ -8,8 +8,9 @@ import json
 import shutil
 import sqlite3
 import sys
+import uuid
 from collections import Counter
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from pathlib import Path
 from typing import Any, Iterable
@@ -22,6 +23,25 @@ EXPECTED_HEADERS = {
 PAYMENTS = {"微信", "支付宝", "会员储值", "银行卡", "现金"}
 AS_OF_DATE = date(2026, 8, 19)
 MONEY_QUANTUM = Decimal("0.01")
+
+
+def record_quality_run(root: Path, status: str, report: dict[str, Any] | None = None,
+                       error_message: str | None = None) -> None:
+    path = root / "data" / "app" / "app.sqlite"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    db = sqlite3.connect(path)
+    try:
+        db.execute("""CREATE TABLE IF NOT EXISTS quality_runs (
+          run_id TEXT PRIMARY KEY, status TEXT NOT NULL, completed_at TEXT NOT NULL,
+          report_json TEXT, error_message TEXT
+        )""")
+        db.execute("INSERT INTO quality_runs VALUES (?, ?, ?, ?, ?)", (
+            f"qr_{uuid.uuid4().hex[:16]}", status, datetime.now(timezone.utc).isoformat(),
+            json.dumps(report, ensure_ascii=False) if report else None, error_message,
+        ))
+        db.commit()
+    finally:
+        db.close()
 
 
 def clean_text(value: str | None) -> str | None:
@@ -277,6 +297,7 @@ def clean_dataset(root: Path) -> dict[str, Any]:
         "issues_by_severity": dict(sorted(Counter(issue["severity"] for issue in issues).items())),
     }
     (reports_dir / "cleaning_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    record_quality_run(root, "success", report)
     return report
 
 
@@ -285,6 +306,7 @@ def main() -> int:
     try:
         report = clean_dataset(root)
     except (OSError, ValueError, csv.Error) as exc:
+        record_quality_run(root, "failed", error_message=str(exc))
         print(f"清洗失败: {exc}", file=sys.stderr)
         return 1
     print(json.dumps(report, ensure_ascii=False, indent=2))

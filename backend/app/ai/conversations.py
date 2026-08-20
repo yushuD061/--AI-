@@ -23,7 +23,7 @@ def connect() -> sqlite3.Connection:
     db.executescript("""
       CREATE TABLE IF NOT EXISTS ai_conversations (
         conversation_id TEXT PRIMARY KEY, title TEXT NOT NULL,
-        created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+        created_at TEXT NOT NULL, updated_at TEXT NOT NULL, owner_user_id TEXT NOT NULL DEFAULT 'legacy'
       );
       CREATE TABLE IF NOT EXISTS ai_messages (
         message_id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL,
@@ -32,45 +32,48 @@ def connect() -> sqlite3.Connection:
         FOREIGN KEY (conversation_id) REFERENCES ai_conversations(conversation_id) ON DELETE CASCADE
       );
     """)
+    columns = {row[1] for row in db.execute("PRAGMA table_info(ai_conversations)")}
+    if "owner_user_id" not in columns:
+        db.execute("ALTER TABLE ai_conversations ADD COLUMN owner_user_id TEXT NOT NULL DEFAULT 'legacy'")
     db.commit()
     return db
 
 
-def create_conversation(title: str = "新对话") -> Conversation:
+def create_conversation(title: str = "新对话", user_id: str = "legacy") -> Conversation:
     conversation_id = f"c_{uuid.uuid4().hex[:12]}"
     now = _now()
     db = connect()
     try:
-        db.execute("INSERT INTO ai_conversations VALUES (?, ?, ?, ?)", (conversation_id, title.strip() or "新对话", now, now))
+        db.execute("INSERT INTO ai_conversations (conversation_id,title,created_at,updated_at,owner_user_id) VALUES (?, ?, ?, ?, ?)", (conversation_id, title.strip() or "新对话", now, now, user_id))
         db.commit()
         return Conversation(conversation_id=conversation_id, title=title.strip() or "新对话", message_count=0, created_at=now, updated_at=now)
     finally:
         db.close()
 
 
-def list_conversations() -> list[Conversation]:
+def list_conversations(user_id: str = "legacy") -> list[Conversation]:
     db = connect()
     try:
         rows = db.execute("""SELECT c.*, COUNT(m.message_id) AS message_count FROM ai_conversations c
           LEFT JOIN ai_messages m ON m.conversation_id = c.conversation_id
-          GROUP BY c.conversation_id ORDER BY c.updated_at DESC""").fetchall()
+          WHERE c.owner_user_id = ? GROUP BY c.conversation_id ORDER BY c.updated_at DESC""", (user_id,)).fetchall()
         return [Conversation(**dict(row)) for row in rows]
     finally:
         db.close()
 
 
-def conversation_exists(conversation_id: str) -> bool:
+def conversation_exists(conversation_id: str, user_id: str = "legacy") -> bool:
     db = connect()
     try:
-        return db.execute("SELECT 1 FROM ai_conversations WHERE conversation_id = ?", (conversation_id,)).fetchone() is not None
+        return db.execute("SELECT 1 FROM ai_conversations WHERE conversation_id = ? AND owner_user_id = ?", (conversation_id, user_id)).fetchone() is not None
     finally:
         db.close()
 
 
-def delete_conversation(conversation_id: str) -> None:
+def delete_conversation(conversation_id: str, user_id: str = "legacy") -> None:
     db = connect()
     try:
-        cursor = db.execute("DELETE FROM ai_conversations WHERE conversation_id = ?", (conversation_id,))
+        cursor = db.execute("DELETE FROM ai_conversations WHERE conversation_id = ? AND owner_user_id = ?", (conversation_id, user_id))
         db.commit()
         if cursor.rowcount == 0:
             raise LookupError("对话不存在")
@@ -91,10 +94,10 @@ def add_message(conversation_id: str, role: str, content: str, status: str, quer
         db.close()
 
 
-def get_messages(conversation_id: str) -> list[AssistantMessage]:
+def get_messages(conversation_id: str, user_id: str = "legacy") -> list[AssistantMessage]:
     db = connect()
     try:
-        if not conversation_exists(conversation_id):
+        if not conversation_exists(conversation_id, user_id):
             raise LookupError("对话不存在")
         rows = db.execute("SELECT * FROM ai_messages WHERE conversation_id = ? ORDER BY created_at, rowid", (conversation_id,)).fetchall()
         result = []
@@ -124,13 +127,14 @@ def _message_model(row: sqlite3.Row | dict) -> AssistantMessage:
     return AssistantMessage(message_id=row["message_id"], role=row["role"], content=row["content"], status=row["status"], facts=facts, query_plan=plan, context=context, dashboard_target=target, created_at=row["created_at"])
 
 
-def last_query_plan(conversation_id: str) -> dict | None:
+def last_query_plan(conversation_id: str, user_id: str = "legacy") -> dict | None:
     db = connect()
     try:
         row = db.execute("""SELECT message_id, query_plan_json FROM ai_messages
           WHERE conversation_id = ? AND role = 'assistant' AND query_plan_json IS NOT NULL
             AND facts_json IS NOT NULL AND status IN ('answered', 'answered_local', 'provider_error')
-          ORDER BY created_at DESC, rowid DESC LIMIT 1""", (conversation_id,)).fetchone()
+          AND conversation_id IN (SELECT conversation_id FROM ai_conversations WHERE owner_user_id = ?)
+          ORDER BY created_at DESC, rowid DESC LIMIT 1""", (conversation_id, user_id)).fetchone()
         if not row:
             return None
         plan = json.loads(row["query_plan_json"])

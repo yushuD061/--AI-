@@ -9,7 +9,7 @@ from ..database import connect
 from .models import QueryPlan
 from .config import get_config
 
-INTENTS = {"revenue_by_period", "orders_by_period", "aov_by_period", "daily_trend", "product_revenue", "top_products", "store_revenue", "category_revenue", "aov_trend", "follow_up"}
+INTENTS = {"revenue_by_period", "orders_by_period", "aov_by_period", "daily_trend", "product_revenue", "top_products", "store_revenue", "category_revenue", "aov_trend", "compare_period", "follow_up"}
 
 
 def _month_range(year: int, month: int) -> tuple[date, date]:
@@ -34,6 +34,22 @@ def _dates(question: str) -> tuple[date | None, date | None]:
     return None, None
 
 
+def _comparison_dates(question: str) -> tuple[date | None, date | None, date | None, date | None]:
+    year_match = re.search(r"(20\d{2})年", question)
+    year = int(year_match.group(1)) if year_match else 2026
+    values = {"一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
+    months = []
+    for raw in re.findall(r"([一二三四五六七八九十]|\d{1,2})月", question):
+        month = values.get(raw, int(raw) if raw.isdigit() else 0)
+        if 1 <= month <= 12:
+            months.append(month)
+    if len(months) >= 2:
+        current_start, current_end = _month_range(year, months[0])
+        previous_start, previous_end = _month_range(year, months[1])
+        return current_start, current_end, previous_start, previous_end
+    return None, None, None, None
+
+
 def _known_name(question: str, column: str, table: str) -> str | None:
     db = connect()
     try:
@@ -54,6 +70,26 @@ def local_parse(question: str, previous: dict | None = None) -> QueryPlan:
         candidate = candidate.strip(" ，,？?的")
         if candidate:
             product = candidate
+    comparison = any(token in question for token in ("相比", "比", "环比", "同比"))
+    if comparison:
+        current_start, current_end, previous_start, previous_end = _comparison_dates(question)
+        if current_start:
+            start, end = current_start, current_end
+        elif previous:
+            start, end = previous.get("start_date"), previous.get("end_date")
+            previous_start, previous_end = previous.get("previous_start_date"), previous.get("previous_end_date")
+        else:
+            db = connect()
+            try:
+                latest = date.fromisoformat(db.execute("SELECT MAX(date_clean) FROM sales_clean").fetchone()[0])
+            finally:
+                db.close()
+            start, end = _month_range(latest.year, latest.month)
+        metric = "average_order_value" if "客单价" in question else "order_count" if "订单" in question else "net_revenue"
+        return QueryPlan(intent="compare_period", metric=metric, start_date=start, end_date=end,
+                         previous_start_date=previous_start, previous_end_date=previous_end,
+                         store_id=store or (previous or {}).get("store_id"), confidence=.95,
+                         changed_fields=["intent", "metric", "start_date", "end_date", "previous_start_date", "previous_end_date"])
     follow_up = any(token in question for token in ("那", "换成", "改成", "呢")) and len(question) <= 30
     if follow_up and not previous:
         return QueryPlan(intent="follow_up", confidence=0.0, operation="inherit")
@@ -76,7 +112,7 @@ def local_parse(question: str, previous: dict | None = None) -> QueryPlan:
         if category:
             base.category = category
         changed = []
-        for field in ("intent", "metric", "start_date", "end_date", "product_name", "store_id", "category"):
+        for field in ("intent", "metric", "start_date", "end_date", "previous_start_date", "previous_end_date", "product_name", "store_id", "category"):
             if old.get(field) != getattr(base, field):
                 changed.append(field)
         if not changed and not metric_changed:
@@ -84,7 +120,7 @@ def local_parse(question: str, previous: dict | None = None) -> QueryPlan:
             return base
         base.operation = "inherit"
         base.changed_fields = changed
-        base.inherited_fields = [field for field in ("intent", "metric", "start_date", "end_date", "product_name", "store_id", "category") if field not in changed and old.get(field)]
+        base.inherited_fields = [field for field in ("intent", "metric", "start_date", "end_date", "previous_start_date", "previous_end_date", "product_name", "store_id", "category") if field not in changed and old.get(field)]
         base.previous_message_id = previous.get("previous_message_id")
         base.confidence = 0.95
         return base
@@ -137,12 +173,12 @@ def _merge_plan(plan: QueryPlan, previous: dict | None) -> QueryPlan:
     prior = QueryPlan(**previous)
     if plan.operation == "inherit" or plan.intent == "follow_up":
         changed = set(plan.changed_fields)
-        for field in ("intent", "metric", "dimensions", "start_date", "end_date", "product_name", "store_id", "category"):
+        for field in ("intent", "metric", "dimensions", "start_date", "end_date", "previous_start_date", "previous_end_date", "product_name", "store_id", "category"):
             if field not in changed and getattr(plan, field) is None:
                 setattr(plan, field, getattr(prior, field))
         plan.intent = prior.intent if plan.intent == "follow_up" else plan.intent
         plan.operation = "inherit"
-        plan.inherited_fields = [field for field in ("intent", "metric", "dimensions", "start_date", "end_date", "product_name", "store_id", "category") if field not in changed and getattr(prior, field)]
+        plan.inherited_fields = [field for field in ("intent", "metric", "dimensions", "start_date", "end_date", "previous_start_date", "previous_end_date", "product_name", "store_id", "category") if field not in changed and getattr(prior, field)]
         plan.previous_message_id = previous.get("previous_message_id")
     return plan
 
@@ -156,7 +192,7 @@ def langchain_parse(question: str, previous: dict | None = None) -> QueryPlan:
     llm = ChatOpenAI(model=config.model, api_key=config.api_key, base_url=config.base_url, temperature=0, timeout=config.timeout_seconds)
     structured = llm.with_structured_output(QueryPlan)
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "你是销售数据问答的意图解析器。只输出结构化查询计划，不要回答问题。intent 必须是 revenue_by_period、orders_by_period、aov_by_period、daily_trend、product_revenue、top_products、store_revenue、category_revenue、aov_trend 之一。不要生成 SQL，不要编造商品或门店 ID。"),
+        ("system", "你是销售数据问答的意图解析器。只输出结构化查询计划，不要回答问题。intent 必须是 revenue_by_period、orders_by_period、aov_by_period、daily_trend、product_revenue、top_products、store_revenue、category_revenue、aov_trend、compare_period 之一。比较问题必须分别填写当前和上一周期。不要生成 SQL，不要编造商品或门店 ID。"),
         ("human", "问题：{question}\n上一次查询计划：{previous}"),
     ])
     result = (prompt | structured).invoke({"question": question, "previous": previous or "无"})

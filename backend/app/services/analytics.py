@@ -5,6 +5,7 @@ from datetime import date, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
+from .. import auth
 from ..database import connect
 from ..schemas import DailyPoint, FilterData, Filters, ProductPerformance, Store, Summary
 
@@ -15,17 +16,22 @@ def _money(value: Any) -> float:
     return float(Decimal(str(value or 0)).quantize(MONEY_QUANTUM, rounding=ROUND_HALF_UP))
 
 
-def _date_bounds(connection: sqlite3.Connection) -> tuple[date, date]:
-    row = connection.execute("SELECT MIN(date_clean), MAX(date_clean) FROM sales_clean").fetchone()
+def _date_bounds(connection: sqlite3.Connection, allowed: tuple[str, ...] | None = None) -> tuple[date, date]:
+    if allowed is None:
+        row = connection.execute("SELECT MIN(date_clean), MAX(date_clean) FROM sales_clean").fetchone()
+    else:
+        placeholders = ",".join("?" for _ in allowed)
+        row = connection.execute(f"SELECT MIN(date_clean), MAX(date_clean) FROM sales_clean WHERE store_id IN ({placeholders})", allowed).fetchone()
     if not row or not row[0] or not row[1]:
         raise ValueError("sales_clean 中没有可用日期")
     return date.fromisoformat(row[0]), date.fromisoformat(row[1])
 
 
 def resolve_filters(start_date: date | None, end_date: date | None, store_id: str | None) -> Filters:
+    principal = auth.ensure_store(store_id)
     connection = connect()
     try:
-        default_start, default_end = _date_bounds(connection)
+        default_start, default_end = _date_bounds(connection, principal.store_ids)
         resolved_start = start_date or default_start
         resolved_end = end_date or default_end
         if resolved_start > resolved_end:
@@ -34,7 +40,8 @@ def resolve_filters(start_date: date | None, end_date: date | None, store_id: st
             exists = connection.execute("SELECT 1 FROM stores_clean WHERE store_id = ?", (store_id,)).fetchone()
             if exists is None:
                 raise LookupError(f"未知门店: {store_id}")
-        return Filters(start_date=resolved_start, end_date=resolved_end, store_id=store_id)
+        return Filters(start_date=resolved_start, end_date=resolved_end, store_id=store_id,
+                       allowed_store_ids=list(principal.store_ids) if principal.store_ids is not None else None)
     finally:
         connection.close()
 
@@ -45,16 +52,25 @@ def filter_sql(filters: Filters) -> tuple[str, dict[str, Any]]:
     if filters.store_id is not None:
         clauses.append("store_id = :store_id")
         params["store_id"] = filters.store_id
+    elif filters.allowed_store_ids is not None:
+        names = []
+        for index, store in enumerate(filters.allowed_store_ids):
+            key = f"allowed_store_{index}"; names.append(f":{key}"); params[key] = store
+        clauses.append(f"store_id IN ({','.join(names)})")
     return " AND ".join(clauses), params
 
 
 def get_filters() -> FilterData:
+    principal = auth.current_user()
     connection = connect()
     try:
-        date_min, date_max = _date_bounds(connection)
-        stores = [Store(**dict(row)) for row in connection.execute(
-            "SELECT store_id, store_name, district FROM stores_clean ORDER BY store_id"
-        )]
+        date_min, date_max = _date_bounds(connection, principal.store_ids)
+        if principal.store_ids is None:
+            rows = connection.execute("SELECT store_id, store_name, district FROM stores_clean ORDER BY store_id")
+        else:
+            placeholders = ",".join("?" for _ in principal.store_ids)
+            rows = connection.execute(f"SELECT store_id, store_name, district FROM stores_clean WHERE store_id IN ({placeholders}) ORDER BY store_id", principal.store_ids)
+        stores = [Store(**dict(row)) for row in rows]
         return FilterData(date_min=date_min, date_max=date_max, stores=stores)
     finally:
         connection.close()

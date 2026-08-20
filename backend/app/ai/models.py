@@ -15,6 +15,8 @@ class QueryPlan(BaseModel):
     dimensions: list[str] = Field(default_factory=list)
     start_date: date | None = None
     end_date: date | None = None
+    previous_start_date: date | None = None
+    previous_end_date: date | None = None
     product_name: str | None = None
     store_id: str | None = None
     category: str | None = None
