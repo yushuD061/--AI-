@@ -1,6 +1,9 @@
 export type AssistantConfig = { provider: string; model: string; base_url: string; has_api_key: boolean; api_key_masked: string | null; timeout_seconds: number; source: string }
 export type Conversation = { conversation_id: string; title: string; message_count: number; created_at: string; updated_at: string }
-export type AssistantMessage = { message_id: string; role: string; content: string; status: string; facts?: Record<string, unknown> | null; created_at: string }
+export type QueryContext = { operation?: string; changed_fields?: string[]; inherited_fields?: string[]; previous_message_id?: string | null }
+export type DashboardTarget = { start_date: string; end_date: string; store_id?: string | null; metric: string; view: 'trend' | 'products' }
+export type AssistantMessage = { message_id: string; role: string; content: string; status: string; facts?: Record<string, unknown> | null; query_plan?: Record<string, unknown> | null; context?: QueryContext | null; dashboard_target?: DashboardTarget | null; created_at: string }
+export type QueryResult = { conversation_id: string; message: AssistantMessage; facts: Record<string, unknown> | null; status: string; context: QueryContext | null; query_plan: Record<string, unknown> | null; dashboard_target: DashboardTarget | null }
 const json = async (response: Response) => { if (!response.ok) throw new Error((await response.json().catch(() => ({}))).detail || '请求失败'); return response.json() }
 export const assistantApi = {
   config: () => fetch('/api/v1/ai/config').then(json).then((body) => body.data as AssistantConfig),
@@ -10,5 +13,5 @@ export const assistantApi = {
   createConversation: () => fetch('/api/v1/ai/conversations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).then(json) as Promise<Conversation>,
   deleteConversation: (id: string) => fetch(`/api/v1/ai/conversations/${id}`, { method: 'DELETE' }).then(json),
   messages: (id: string) => fetch(`/api/v1/ai/conversations/${id}/messages`).then(json).then((body) => body.data as AssistantMessage[]),
-  ask: (conversation_id: string, question: string) => fetch('/api/v1/ai/query', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ conversation_id, question }) }).then(json),
+  ask: (conversation_id: string, question: string) => fetch('/api/v1/ai/query', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ conversation_id, question }) }).then(json) as Promise<QueryResult>,
 }

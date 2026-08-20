@@ -19,6 +19,10 @@ class QueryPlan(BaseModel):
     store_id: str | None = None
     category: str | None = None
     confidence: float = 1.0
+    operation: Literal["inherit", "replace", "clear"] = "replace"
+    changed_fields: list[str] = Field(default_factory=list)
+    inherited_fields: list[str] = Field(default_factory=list)
+    previous_message_id: str | None = None
 
 
 class FactSet(BaseModel):
@@ -61,6 +65,9 @@ class AssistantMessage(BaseModel):
     content: str
     status: Status | str
     facts: dict[str, Any] | None = None
+    query_plan: dict[str, Any] | None = None
+    context: dict[str, Any] | None = None
+    dashboard_target: dict[str, Any] | None = None
     created_at: datetime
 
 

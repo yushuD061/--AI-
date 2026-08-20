@@ -1,0 +1,11 @@
+.fact-row { display: contents; }
+.context-tags { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
+.context-tags > span { color: #829088; }
+.context-tags b { padding: 3px 6px; border-radius: 4px; color: #3f785c; background: #eef6f1; font-weight: 600; }
+.context-tags.changed b { color: #8a6543; background: #fff4e8; }
+.dashboard-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 6px 9px; border-radius: 6px; color: #fff; background: #237a59; text-decoration: none; font-weight: 700; }
+.status-dot.clarification_required { color: #8a6543; background: #fff4e8; }
+.linked-highlight { outline: 3px solid rgba(35, 122, 89, .35); outline-offset: 4px; transition: outline-color .4s ease; }
+.assistant-layout { min-height: 0; }
+.chat-panel { min-height: 0; height: 100%; }
+.message-list { min-height: 0; }

@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -44,6 +44,24 @@ async def invalid_lookup(_: Request, exc: LookupError) -> JSONResponse:
 
 def query_filters(start_date: date | None, end_date: date | None, store_id: str | None) -> Filters:
     return analytics.resolve_filters(start_date, end_date, store_id)
+
+
+def ai_response(conversation_id: str, assistant: AssistantMessage, facts: FactSet | None, status: str, plan=None) -> dict:
+    plan_data = plan.model_dump(mode="json") if plan else None
+    context = None
+    target = None
+    if plan_data:
+        context = {key: plan_data.get(key) for key in ("operation", "changed_fields", "inherited_fields", "previous_message_id")}
+    if facts:
+        filters = facts.filters
+        target = {
+            "start_date": filters.get("start_date"),
+            "end_date": filters.get("end_date"),
+            "store_id": filters.get("store_id"),
+            "metric": facts.metric,
+            "view": "products" if facts.intent == "top_products" else "trend",
+        }
+    return {"conversation_id": conversation_id, "message": assistant, "facts": facts, "status": status, "context": context, "query_plan": plan_data, "dashboard_target": target}
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -127,21 +145,22 @@ def query_ai(payload: QueryRequest) -> dict:
     try:
         plan, mode = parse_question(payload.question, previous)
     except ValueError:
-        user_message = conversations.add_message(payload.conversation_id, "user", payload.question, "unsupported")
+        conversations.add_message(payload.conversation_id, "user", payload.question, "unsupported")
         assistant = conversations.add_message(payload.conversation_id, "assistant", "这个问题暂不在当前数据问答范围内，我可以回答营业额、订单数、客单价、商品、门店和品类问题。", "unsupported")
-        return {"conversation_id": payload.conversation_id, "message": assistant, "facts": None, "status": "unsupported"}
+        return ai_response(payload.conversation_id, assistant, None, "unsupported")
     if plan.confidence < 0.75:
+        conversations.add_message(payload.conversation_id, "user", payload.question, "clarification_required")
         assistant = conversations.add_message(payload.conversation_id, "assistant", "请补充明确的日期、商品或门店，我才能查询准确数据。", "clarification_required", plan.model_dump())
-        return {"conversation_id": payload.conversation_id, "message": assistant, "facts": None, "status": "clarification_required"}
+        return ai_response(payload.conversation_id, assistant, None, "clarification_required", plan)
     conversations.add_message(payload.conversation_id, "user", payload.question, "pending")
     try:
         facts = execute_plan(plan)
-    except LookupError:
+    except (LookupError, ValueError):
         facts = None
     if facts is None or (facts.value is None and not facts.rows):
         content = "当前问题没有匹配到销售记录，请检查商品、门店或日期。"
         assistant = conversations.add_message(payload.conversation_id, "assistant", content, "no_data", plan.model_dump(), facts.model_dump() if facts else None)
-        return {"conversation_id": payload.conversation_id, "message": assistant, "facts": facts, "status": "no_data"}
+        return ai_response(payload.conversation_id, assistant, facts, "no_data", plan)
     status = "answered_local"
     content = template_answer(plan, facts)
     try:
@@ -152,4 +171,4 @@ def query_ai(payload: QueryRequest) -> dict:
     except Exception:
         status = "provider_error"
     assistant = conversations.add_message(payload.conversation_id, "assistant", content, status, plan.model_dump(), facts.model_dump())
-    return {"conversation_id": payload.conversation_id, "message": assistant, "facts": facts, "status": status}
+    return ai_response(payload.conversation_id, assistant, facts, status, plan)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from decimal import Decimal, InvalidOperation
 
 from .models import FactSet, QueryPlan
 
@@ -25,13 +26,34 @@ def template_answer(plan: QueryPlan, facts: FactSet) -> str:
     return f"{start} 至 {end} 的净营业额为 ¥{value:,.2f}。"
 
 
-def validate_answer(content: str, facts: FactSet) -> bool:
-    expected = []
+def _normalize_number(value: object) -> str:
+    try:
+        number = Decimal(str(value).replace(",", ""))
+    except (InvalidOperation, ValueError):
+        return str(value)
+    return format(number.normalize(), "f")
+
+
+def extract_business_numbers(content: str) -> list[str]:
+    text = re.sub(r"20\d{2}[-/]\d{1,2}(?:[-/]\d{1,2})?", "", content)
+    text = re.sub(r"20\d{2}\s*年(?:\s*\d{1,2}\s*月(?:\s*\d{1,2}\s*日)?)?", "", text)
+    text = re.sub(r"\b[A-Za-z]+\d+\b", "", text)
+    return [_normalize_number(value) for value in re.findall(r"(?<![\d.])(-?\d[\d,]*(?:\.\d+)?)(?![\d.])", text)]
+
+
+def expected_business_numbers(facts: FactSet) -> set[str]:
+    expected: set[str] = set()
     if facts.value is not None:
-        expected.append(f"{facts.value:,.2f}")
+        expected.add(_normalize_number(facts.value))
     for row in facts.rows:
-        for key in ("quantity", "order_count", "net_revenue"):
+        for key in ("quantity", "order_count", "net_revenue", "average_order_value", "start_average_order_value", "end_average_order_value"):
             if row.get(key) is not None:
-                expected.append(f"{float(row[key]):,.0f}" if key != "net_revenue" else f"{float(row[key]):,.2f}")
-    numbers = re.findall(r"(?<!\d)(\d[\d,]*(?:\.\d+)?)(?!\d)", content)
-    return not expected or all(any(number.replace(",", "") == candidate.replace(",", "") for candidate in expected) for number in numbers if "." in number or "," in number)
+                expected.add(_normalize_number(row[key]))
+    if facts.intent == "daily_trend":
+        expected.add(_normalize_number(len(facts.rows)))
+    return expected
+
+
+def validate_answer(content: str, facts: FactSet) -> bool:
+    expected = expected_business_numbers(facts)
+    return all(number in expected for number in extract_business_numbers(content))

@@ -1,0 +1,344 @@
+{
+  "consistency_rate": 1.0,
+  "passed": 5,
+  "total": 5,
+  "cases": [
+    {
+      "case_id": "beef_june",
+      "question": "牛肉poke 六月卖了多少钱？",
+      "conversation_history": [],
+      "query_plan": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "dimensions": [
+          "product"
+        ],
+        "start_date": "2026-06-01",
+        "end_date": "2026-06-30",
+        "product_name": "牛肉poke",
+        "store_id": null,
+        "category": null,
+        "confidence": 0.9,
+        "operation": "replace",
+        "changed_fields": [
+          "start_date",
+          "end_date",
+          "product_name",
+          "metric",
+          "intent"
+        ],
+        "inherited_fields": [],
+        "previous_message_id": null
+      },
+      "expected_database_facts": {
+        "net_revenue": 85.0,
+        "order_count": 4,
+        "average_order_value": 21.25
+      },
+      "actual_facts": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "value": 85.0,
+        "unit": "CNY",
+        "filters": {
+          "start_date": "2026-06-01",
+          "end_date": "2026-06-30",
+          "store_id": null,
+          "product_name": "牛肉poke",
+          "category": null
+        },
+        "rows": [
+          {
+            "net_revenue": 85,
+            "quantity": 3,
+            "order_count": 4
+          }
+        ],
+        "source": "sales_clean.sqlite:sales_clean"
+      },
+      "final_answer": "牛肉poke 在 2026-06 的净营业额为 ¥85.00，共售出 3 份，涉及 4 个订单。",
+      "numbers_in_answer": [
+        "85",
+        "3",
+        "4"
+      ],
+      "consistency_passed": true,
+      "fallback_used": true,
+      "duration_ms": 16
+    },
+    {
+      "case_id": "beef_may",
+      "question": "那五月呢？",
+      "conversation_history": [
+        "牛肉poke 六月卖了多少钱？"
+      ],
+      "query_plan": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "dimensions": [
+          "product"
+        ],
+        "start_date": "2026-05-01",
+        "end_date": "2026-05-31",
+        "product_name": "牛肉poke",
+        "store_id": null,
+        "category": null,
+        "confidence": 0.95,
+        "operation": "inherit",
+        "changed_fields": [
+          "start_date",
+          "end_date"
+        ],
+        "inherited_fields": [
+          "intent",
+          "metric",
+          "dimensions",
+          "product_name"
+        ],
+        "previous_message_id": "m_4189b185daac"
+      },
+      "expected_database_facts": {
+        "net_revenue": 40.0,
+        "order_count": 1,
+        "average_order_value": 40.0
+      },
+      "actual_facts": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "value": 40.0,
+        "unit": "CNY",
+        "filters": {
+          "start_date": "2026-05-01",
+          "end_date": "2026-05-31",
+          "store_id": null,
+          "product_name": "牛肉poke",
+          "category": null
+        },
+        "rows": [
+          {
+            "net_revenue": 40,
+            "quantity": 1,
+            "order_count": 1
+          }
+        ],
+        "source": "sales_clean.sqlite:sales_clean"
+      },
+      "final_answer": "牛肉poke 在 2026-05 的净营业额为 ¥40.00，共售出 1 份，涉及 1 个订单。",
+      "numbers_in_answer": [
+        "40",
+        "1",
+        "1"
+      ],
+      "consistency_passed": true,
+      "fallback_used": true,
+      "duration_ms": 16
+    },
+    {
+      "case_id": "salmon_may",
+      "question": "换成三文鱼poke呢？",
+      "conversation_history": [
+        "牛肉poke 六月卖了多少钱？",
+        "那五月呢？"
+      ],
+      "query_plan": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "dimensions": [
+          "product"
+        ],
+        "start_date": "2026-05-01",
+        "end_date": "2026-05-31",
+        "product_name": "三文鱼poke",
+        "store_id": null,
+        "category": null,
+        "confidence": 0.95,
+        "operation": "inherit",
+        "changed_fields": [
+          "product_name"
+        ],
+        "inherited_fields": [
+          "intent",
+          "metric",
+          "dimensions",
+          "start_date",
+          "end_date"
+        ],
+        "previous_message_id": "m_1a6f2db4abea"
+      },
+      "expected_database_facts": {
+        "net_revenue": 30.0,
+        "order_count": 1,
+        "average_order_value": 30.0
+      },
+      "actual_facts": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "value": 30.0,
+        "unit": "CNY",
+        "filters": {
+          "start_date": "2026-05-01",
+          "end_date": "2026-05-31",
+          "store_id": null,
+          "product_name": "三文鱼poke",
+          "category": null
+        },
+        "rows": [
+          {
+            "net_revenue": 30,
+            "quantity": 1,
+            "order_count": 1
+          }
+        ],
+        "source": "sales_clean.sqlite:sales_clean"
+      },
+      "final_answer": "三文鱼poke 在 2026-05 的净营业额为 ¥30.00，共售出 1 份，涉及 1 个订单。",
+      "numbers_in_answer": [
+        "30",
+        "1",
+        "1"
+      ],
+      "consistency_passed": true,
+      "fallback_used": true,
+      "duration_ms": 21
+    },
+    {
+      "case_id": "salmon_s01",
+      "question": "S01 门店呢？",
+      "conversation_history": [
+        "牛肉poke 六月卖了多少钱？",
+        "那五月呢？",
+        "换成三文鱼poke呢？"
+      ],
+      "query_plan": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "dimensions": [
+          "product"
+        ],
+        "start_date": "2026-05-01",
+        "end_date": "2026-05-31",
+        "product_name": "三文鱼poke",
+        "store_id": "S01",
+        "category": null,
+        "confidence": 0.95,
+        "operation": "inherit",
+        "changed_fields": [
+          "store_id"
+        ],
+        "inherited_fields": [
+          "intent",
+          "metric",
+          "dimensions",
+          "start_date",
+          "end_date",
+          "product_name"
+        ],
+        "previous_message_id": "m_b82763422036"
+      },
+      "expected_database_facts": {
+        "net_revenue": 30.0,
+        "order_count": 1,
+        "average_order_value": 30.0
+      },
+      "actual_facts": {
+        "intent": "product_revenue",
+        "metric": "net_revenue",
+        "value": 30.0,
+        "unit": "CNY",
+        "filters": {
+          "start_date": "2026-05-01",
+          "end_date": "2026-05-31",
+          "store_id": "S01",
+          "product_name": "三文鱼poke",
+          "category": null
+        },
+        "rows": [
+          {
+            "net_revenue": 30,
+            "quantity": 1,
+            "order_count": 1
+          }
+        ],
+        "source": "sales_clean.sqlite:sales_clean"
+      },
+      "final_answer": "三文鱼poke 在 2026-05 的净营业额为 ¥30.00，共售出 1 份，涉及 1 个订单。",
+      "numbers_in_answer": [
+        "30",
+        "1",
+        "1"
+      ],
+      "consistency_passed": true,
+      "fallback_used": true,
+      "duration_ms": 25
+    },
+    {
+      "case_id": "salmon_s01_orders",
+      "question": "订单数呢？",
+      "conversation_history": [
+        "牛肉poke 六月卖了多少钱？",
+        "那五月呢？",
+        "换成三文鱼poke呢？",
+        "S01 门店呢？"
+      ],
+      "query_plan": {
+        "intent": "orders_by_period",
+        "metric": "order_count",
+        "dimensions": [
+          "product"
+        ],
+        "start_date": "2026-05-01",
+        "end_date": "2026-05-31",
+        "product_name": "三文鱼poke",
+        "store_id": "S01",
+        "category": null,
+        "confidence": 0.95,
+        "operation": "inherit",
+        "changed_fields": [
+          "intent",
+          "metric"
+        ],
+        "inherited_fields": [
+          "dimensions",
+          "start_date",
+          "end_date",
+          "product_name",
+          "store_id"
+        ],
+        "previous_message_id": "m_1fb3ea994888"
+      },
+      "expected_database_facts": {
+        "net_revenue": 30.0,
+        "order_count": 1,
+        "average_order_value": 30.0
+      },
+      "actual_facts": {
+        "intent": "orders_by_period",
+        "metric": "order_count",
+        "value": 1.0,
+        "unit": "CNY",
+        "filters": {
+          "start_date": "2026-05-01",
+          "end_date": "2026-05-31",
+          "store_id": "S01",
+          "product_name": "三文鱼poke",
+          "category": null
+        },
+        "rows": [
+          {
+            "net_revenue": 30.0,
+            "order_count": 1,
+            "average_order_value": 30.0
+          }
+        ],
+        "source": "sales_clean.sqlite:sales_clean"
+      },
+      "final_answer": "2026-05-01 至 2026-05-31 共 1 个订单。",
+      "numbers_in_answer": [
+        "1"
+      ],
+      "consistency_passed": true,
+      "fallback_used": true,
+      "duration_ms": 21
+    }
+  ]
+}

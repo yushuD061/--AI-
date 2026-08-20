@@ -33,7 +33,7 @@ def execute_plan(plan: QueryPlan) -> FactSet:
             if plan.intent == "aov_trend":
                 value = rows[-1]["average_order_value"] if rows else 0
                 rows = [{"start_average_order_value": rows[0]["average_order_value"] if rows else 0, "end_average_order_value": value}]
-            return FactSet(intent=plan.intent, metric=plan.metric, value=rows[-1].get("average_order_value") if rows and plan.intent == "daily_trend" else None, filters={"start_date": start.isoformat(), "end_date": end.isoformat()}, rows=rows)
+            return FactSet(intent=plan.intent, metric=plan.metric, value=rows[-1].get("average_order_value") if rows and plan.intent == "daily_trend" else None, filters={"start_date": start.isoformat(), "end_date": end.isoformat(), "store_id": plan.store_id, "product_name": plan.product_name, "category": plan.category}, rows=rows)
         if plan.intent in {"top_products", "store_revenue", "category_revenue"}:
             if plan.intent == "top_products":
                 group = "product_id, product_name, product_category"
@@ -49,12 +49,23 @@ def execute_plan(plan: QueryPlan) -> FactSet:
         if plan.intent == "product_revenue":
             row = db.execute(f"SELECT SUM(amount_clean) AS net_revenue, SUM(qty_clean) AS quantity, COUNT(DISTINCT order_id) AS order_count FROM sales_clean WHERE {where}", params).fetchone()
             rows = [dict(row)] if row and row["net_revenue"] is not None else []
-            return FactSet(intent=plan.intent, metric="net_revenue", value=rows[0]["net_revenue"] if rows else None, filters={"start_date": start.isoformat(), "end_date": end.isoformat(), "product_name": plan.product_name}, rows=rows)
-        summary = get_summary(filters)
+            return FactSet(intent=plan.intent, metric="net_revenue", value=rows[0]["net_revenue"] if rows else None, filters={"start_date": start.isoformat(), "end_date": end.isoformat(), "store_id": plan.store_id, "product_name": plan.product_name, "category": plan.category}, rows=rows)
+        if plan.product_name or plan.category:
+            row = db.execute(f"""SELECT COALESCE(SUM(amount_clean), 0) AS net_revenue,
+              COUNT(DISTINCT order_id) AS order_count FROM sales_clean WHERE {where}""", params).fetchone()
+            revenue = float(row["net_revenue"] or 0)
+            order_count = int(row["order_count"] or 0)
+            summary_data = {
+                "net_revenue": revenue,
+                "order_count": order_count,
+                "average_order_value": round(revenue / order_count, 2) if order_count else 0,
+            }
+        else:
+            summary_data = get_summary(filters).model_dump()
         if plan.intent == "orders_by_period":
-            return FactSet(intent=plan.intent, metric="order_count", value=summary.order_count, filters={"start_date": start.isoformat(), "end_date": end.isoformat()})
+            return FactSet(intent=plan.intent, metric="order_count", value=summary_data["order_count"], filters={"start_date": start.isoformat(), "end_date": end.isoformat(), "store_id": plan.store_id, "product_name": plan.product_name, "category": plan.category}, rows=[summary_data])
         if plan.intent in {"aov_by_period", "aov_trend"}:
-            return FactSet(intent=plan.intent, metric="average_order_value", value=summary.average_order_value, filters={"start_date": start.isoformat(), "end_date": end.isoformat()}, rows=[summary.model_dump()])
-        return FactSet(intent=plan.intent, metric="net_revenue", value=summary.net_revenue, filters={"start_date": start.isoformat(), "end_date": end.isoformat()}, rows=[summary.model_dump()])
+            return FactSet(intent=plan.intent, metric="average_order_value", value=summary_data["average_order_value"], filters={"start_date": start.isoformat(), "end_date": end.isoformat(), "store_id": plan.store_id, "product_name": plan.product_name, "category": plan.category}, rows=[summary_data])
+        return FactSet(intent=plan.intent, metric="net_revenue", value=summary_data["net_revenue"], filters={"start_date": start.isoformat(), "end_date": end.isoformat(), "store_id": plan.store_id, "product_name": plan.product_name, "category": plan.category}, rows=[summary_data])
     finally:
         db.close()
